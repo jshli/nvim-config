@@ -6,7 +6,6 @@
 return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.pack.lua" },
-  { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.scrolling.neoscroll-nvim" },
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
   { import = "astrocommunity.pack.ruby" },
@@ -19,7 +18,7 @@ return {
   { import = "astrocommunity.motion.nvim-surround" },
   { import = "astrocommunity.motion.flash-nvim" },
   { import = "astrocommunity.test.neotest" },
-
+  { import = "astrocommunity.diagnostics.trouble-nvim" },
   {
     "nvim-neotest/neotest",
     config = function()
