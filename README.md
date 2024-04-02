@@ -53,12 +53,13 @@ NVIM_APPNAME=jshli/nvim-config/ nvim
 + [nvim-treesitter/nvim-treesitter](https://dotfyle.com/plugins/nvim-treesitter/nvim-treesitter)
 ### test
 
++ [nvim-neotest/neotest](https://dotfyle.com/plugins/nvim-neotest/neotest)
+
 ### motion
 + flash-nvim
 + nvim-surround
 
-
-+ [nvim-neotest/neotest](https://dotfyle.com/plugins/nvim-neotest/neotest)
+  
 ## Language Servers
 
 + lua_ls
