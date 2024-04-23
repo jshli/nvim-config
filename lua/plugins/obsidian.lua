@@ -13,6 +13,47 @@ return {
       opts = {
         mappings = {
           n = {
+            ["<leader>O"] = { desc = "Obsidian" },
+            ["<leader>Od"] = {
+              function()
+                if vim.fn.exists ":ObsidianToday" == 2 then
+                  vim.cmd "ObsidianToday"
+                else
+                  return "<leader>Od"
+                end
+              end,
+              desc = "Open today's daily note",
+            },
+            ["<leader>Oy"] = {
+              function()
+                if vim.fn.exists ":ObsidianYesterday" == 2 then
+                  vim.cmd "ObsidianYesterday"
+                else
+                  return "<leader>OD"
+                end
+              end,
+              desc = "Open a picker with daily notes",
+            },
+            ["<leader>Ot"] = {
+              function()
+                if vim.fn.exists ":ObsidianTomorrow" == 2 then
+                  vim.cmd "ObsidianTomorrow"
+                else
+                  return "<leader>Ot"
+                end
+              end,
+              desc = "Open the daily note for the next working day",
+            },
+            ["<leader>OD"] = {
+              function()
+                if vim.fn.exists ":ObsidianDailies" == 2 then
+                  vim.cmd "ObsidianDailies"
+                else
+                  return "<leader>OD"
+                end
+              end,
+              desc = "Open a picker with daily notes",
+            },
             ["gf"] = {
               function()
                 if require("obsidian").util.cursor_on_markdown_link() then
@@ -37,6 +78,11 @@ return {
       subdir = "templates",
       date_format = "%Y-%m-%d-%a",
       time_format = "%H:%M",
+    },
+
+    daily_notes = {
+      folder = "daily-notes",
+      template = "templates/Daily note template",
     },
 
     note_frontmatter_func = function(note)
