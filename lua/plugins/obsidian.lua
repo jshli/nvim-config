@@ -26,43 +26,83 @@ return {
             },
             ["<leader>Oy"] = {
               function()
-                if vim.fn.exists ":ObsidianYesterday" == 2 then
-                  vim.cmd "ObsidianYesterday"
+                if vim.fn.exists ":ObsidianToday" == 2 then
+                  vim.cmd "ObsidianToday -1"
                 else
-                  return "<leader>OD"
+                  return "<leader>Oy"
                 end
               end,
-              desc = "Open a picker with daily notes",
+              desc = "Open yesterday's daily note",
             },
             ["<leader>Ot"] = {
               function()
-                if vim.fn.exists ":ObsidianTomorrow" == 2 then
-                  vim.cmd "ObsidianTomorrow"
+                if vim.fn.exists ":ObsidianToday" == 2 then
+                  vim.cmd "ObsidianToday 1"
                 else
                   return "<leader>Ot"
                 end
               end,
-              desc = "Open the daily note for the next working day",
+              desc = "Open tomorrow's daily note",
             },
             ["<leader>OD"] = {
               function()
                 if vim.fn.exists ":ObsidianDailies" == 2 then
-                  vim.cmd "ObsidianDailies"
+                  vim.cmd "ObsidianDailies -2 2"
                 else
                   return "<leader>OD"
                 end
               end,
               desc = "Open a picker with daily notes",
             },
-            ["gf"] = {
+            ["<leader>Ob"] = {
               function()
-                if require("obsidian").util.cursor_on_markdown_link() then
-                  return "<Cmd>ObsidianFollowLink<CR>"
+                if vim.fn.exists ":ObsidianBacklinks" == 2 then
+                  vim.cmd "ObsidianBacklinks"
                 else
-                  return "gf"
+                  return "<leader>Ob"
                 end
               end,
-              desc = "Obsidian Follow Link",
+              desc = "Collect backlinks",
+            },
+            ["<leader>OT"] = {
+              function()
+                if vim.fn.exists ":ObsidianTemplate" == 2 then
+                  vim.cmd "ObsidianTemplate"
+                else
+                  return "<leader>OT"
+                end
+              end,
+              desc = "Insert a template",
+            },
+            ["<leader>OO"] = {
+              function()
+                if vim.fn.exists ":ObsidianOpen" == 2 then
+                  vim.cmd "ObsidianOpen"
+                else
+                  return "<leader>OO"
+                end
+              end,
+              desc = "Open in the Obsidian app",
+            },
+            ["<leader>Oq"] = {
+              function()
+                if vim.fn.exists ":ObsidianQuickSwitch" == 2 then
+                  vim.cmd "ObsidianQuickSwitch"
+                else
+                  return "<leader>Oq"
+                end
+              end,
+              desc = "Switch notes",
+            },
+            ["<leader>Or"] = {
+              function()
+                if vim.fn.exists ":ObsidianRename" == 2 then
+                  vim.cmd "ObsidianRename"
+                else
+                  return "<leader>Or"
+                end
+              end,
+              desc = "Rename note and update all references to it",
             },
           },
         },
@@ -96,6 +136,35 @@ return {
         end
       end
       return out
+    end,
+
+    -- Optional, customize how note IDs are generated given an optional title.
+    ---@param title string|?
+    ---@return string
+    note_id_func = function(title)
+      -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+      -- In this case a note with the title 'My new note' will be given an ID that looks
+      -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
+      local suffix = ""
+      if title ~= nil then
+        -- If title is given, transform it into valid file name.
+        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+      else
+        -- If title is nil, just add 4 random uppercase letters to the suffix.
+        for _ = 1, 4 do
+          suffix = suffix .. string.char(math.random(65, 90))
+        end
+      end
+      return suffix
+    end,
+
+    -- Optional, customize how note file names are generated given the ID, target directory, and title.
+    ---@param spec { id: string, dir: obsidian.Path, title: string|? }
+    ---@return string|obsidian.Path The full path to the new note.
+    note_path_func = function(spec)
+      -- This is equivalent to the default behavior.
+      local path = spec.dir / tostring(spec.id)
+      return path:with_suffix ".md"
     end,
 
     -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
