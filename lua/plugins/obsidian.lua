@@ -103,8 +103,43 @@ return {
                 end
               end,
               desc = "Rename note and update all references to it",
-            },
+            }, 
           },
+        },
+        options = {
+          opt = {
+            wrap = true,
+          },
+        },
+      },
+    },
+    {
+      "Pocco81/auto-save.nvim",
+      event = { "User AstroFile", "InsertEnter" },
+      opts = {
+        callbacks = {
+          before_saving = function()
+            -- save global autoformat status
+            vim.g.OLD_AUTOFORMAT = vim.g.autoformat_enabled
+
+            vim.g.autoformat_enabled = false
+            vim.g.OLD_AUTOFORMAT_BUFFERS = {}
+            -- disable all manually enabled buffers
+            for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+              if vim.b[bufnr].autoformat_enabled then
+                table.insert(vim.g.OLD_BUFFER_AUTOFORMATS, bufnr)
+                vim.b[bufnr].autoformat_enabled = false
+              end
+            end
+          end,
+          after_saving = function()
+            -- restore global autoformat status
+            vim.g.autoformat_enabled = vim.g.OLD_AUTOFORMAT
+            -- reenable all manually enabled buffers
+            for _, bufnr in ipairs(vim.g.OLD_AUTOFORMAT_BUFFERS or {}) do
+              vim.b[bufnr].autoformat_enabled = true
+            end
+          end,
         },
       },
     },
@@ -116,7 +151,7 @@ return {
 
     templates = {
       subdir = "templates",
-      date_format = "%Y-%m-%d-%a",
+      date_format = "%d-%m-%Y-%a",
       time_format = "%H:%M",
     },
 
@@ -148,7 +183,7 @@ return {
       local suffix = ""
       if title ~= nil then
         -- If title is given, transform it into valid file name.
-        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", "")
       else
         -- If title is nil, just add 4 random uppercase letters to the suffix.
         for _ = 1, 4 do
@@ -156,15 +191,6 @@ return {
         end
       end
       return suffix
-    end,
-
-    -- Optional, customize how note file names are generated given the ID, target directory, and title.
-    ---@param spec { id: string, dir: obsidian.Path, title: string|? }
-    ---@return string|obsidian.Path The full path to the new note.
-    note_path_func = function(spec)
-      -- This is equivalent to the default behavior.
-      local path = spec.dir / tostring(spec.id)
-      return path:with_suffix ".md"
     end,
 
     -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
