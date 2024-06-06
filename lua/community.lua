@@ -15,7 +15,11 @@ return {
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.motion.nvim-surround" },
   { import = "astrocommunity.motion.flash-nvim" },
-  { import = "astrocommunity.diagnostics.trouble-nvim" },
   { import = "astrocommunity.editing-support.nvim-treesitter-endwise" },
+  { import = "astrocommunity.editing-support.yanky-nvim" },
+  { import = "astrocommunity.utility.telescope-live-grep-args-nvim" },
+  { import = "astrocommunity.editing-support.telescope-undo-nvim" },
+  { import = "astrocommunity.motion.harpoon" },
+  { import = "astrocommunity.workflow.precognition-nvim" },
   -- import/override with your plugins folder
 }

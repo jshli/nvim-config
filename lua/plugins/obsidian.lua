@@ -3,7 +3,7 @@ return {
   -- the obsidian vault in this default config  ~/obsidian-vault
   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand':
   -- event = { "bufreadpre " .. vim.fn.expand "~" .. "/my-vault/**.md" },
-  event = { "BufReadPre  */Library/Mobile Documents/iCloud~md~obsidian/Documents/jshli-vault/*.md" },
+  event = { "BufEnter  */Library/Mobile Documents/iCloud~md~obsidian/Documents/jshli-vault" },
   dependencies = {
     "nvim-lua/plenary.nvim",
     "hrsh7th/nvim-cmp",
@@ -52,7 +52,7 @@ return {
                   return "<leader>OD"
                 end
               end,
-              desc = "Open a picker with daily notes",
+              desc = "Open a picker with dail notes",
             },
             ["<leader>Ob"] = {
               function()
@@ -103,7 +103,7 @@ return {
                 end
               end,
               desc = "Rename note and update all references to it",
-            }, 
+            },
           },
         },
         options = {
@@ -113,36 +113,38 @@ return {
         },
       },
     },
-    {
-      "Pocco81/auto-save.nvim",
-      event = { "User AstroFile", "InsertEnter" },
-      opts = {
-        callbacks = {
-          before_saving = function()
-            -- save global autoformat status
-            vim.g.OLD_AUTOFORMAT = vim.g.autoformat_enabled
-
-            vim.g.autoformat_enabled = false
-            vim.g.OLD_AUTOFORMAT_BUFFERS = {}
-            -- disable all manually enabled buffers
-            for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-              if vim.b[bufnr].autoformat_enabled then
-                table.insert(vim.g.OLD_BUFFER_AUTOFORMATS, bufnr)
-                vim.b[bufnr].autoformat_enabled = false
-              end
-            end
-          end,
-          after_saving = function()
-            -- restore global autoformat status
-            vim.g.autoformat_enabled = vim.g.OLD_AUTOFORMAT
-            -- reenable all manually enabled buffers
-            for _, bufnr in ipairs(vim.g.OLD_AUTOFORMAT_BUFFERS or {}) do
-              vim.b[bufnr].autoformat_enabled = true
-            end
-          end,
-        },
-      },
-    },
+    -- {
+    --   "Pocco81/auto-save.nvim",
+    --   event = { "BufEnter  */Library/Mobile Documents/iCloud~md~obsidian/Documents/jshli-vault" },
+    --   ft = { "markdown" },
+    --   lazy = true,
+    --   opts = {
+    --     callbacks = {
+    --       before_saving = function()
+    --         -- save global autoformat status
+    --         vim.g.OLD_AUTOFORMAT = vim.g.autoformat_enabled
+    --
+    --         vim.g.autoformat_enabled = false
+    --         vim.g.OLD_AUTOFORMAT_BUFFERS = {}
+    --         -- disable all manually enabled buffers
+    --         for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    --           if vim.b[bufnr].autoformat_enabled then
+    --             table.insert(vim.g.OLD_BUFFER_AUTOFORMATS, bufnr)
+    --             vim.b[bufnr].autoformat_enabled = false
+    --           end
+    --         end
+    --       end,
+    --       after_saving = function()
+    --         -- restore global autoformat status
+    --         vim.g.autoformat_enabled = vim.g.OLD_AUTOFORMAT
+    --         -- reenable all manually enabled buffers
+    --         for _, bufnr in ipairs(vim.g.OLD_AUTOFORMAT_BUFFERS or {}) do
+    --           vim.b[bufnr].autoformat_enabled = true
+    --         end
+    --       end,
+    --     },
+    --   },
+    -- },
   },
   opts = {
     dir = vim.env.HOME .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/jshli-vault", -- specify the vault location. no need to call 'vim.fn.expand' here
