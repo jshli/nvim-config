@@ -20,6 +20,8 @@ return {
   { import = "astrocommunity.utility.telescope-live-grep-args-nvim" },
   { import = "astrocommunity.editing-support.telescope-undo-nvim" },
   { import = "astrocommunity.motion.harpoon" },
-  { import = "astrocommunity.workflow.precognition-nvim" },
+  { import = "astrocommunity.bars-and-lines.vim-illuminate" },
+  { import = "astrocommunity.completion.copilot-cmp" },
+  -- { import = "astrocommunity.workflow.precognition-nvim" },
   -- import/override with your plugins folder
 }
