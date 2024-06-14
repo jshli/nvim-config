@@ -22,6 +22,7 @@ return {
   { import = "astrocommunity.motion.harpoon" },
   { import = "astrocommunity.bars-and-lines.vim-illuminate" },
   { import = "astrocommunity.completion.copilot-cmp" },
+  { import = "astrocommunity.editing-support.nvim-treesitter-context" },
   -- { import = "astrocommunity.workflow.precognition-nvim" },
   -- import/override with your plugins folder
 }
